@@ -1,56 +1,71 @@
-# ESP32_Demo
 
-ESP32 示例工程，适用于 **ESP-32**开发板
+
+# 🚀 ESP32 Demo 工程说明
+
+ESP32 示例工程，适用于 **ESP-WROOM-32** 开发板，演示在 **CLion** 下如何进行环境配置和程序调试。
+
+
 
 ## 📁 项目结构说明
 
-此工程基于 **ESP32** 开发板，演示了Clion下的环境配置和调试
+本工程基于 **ESP32** 开发板，演示了如何在 **CLion** 中搭建 ESP-IDF 开发环境及进行调试
+
+
 
 ## 🛠️ 开发环境要求
 
-- 开发板：ESP-WROOM-32
-- 开发环境：Clion 2025.1 / ESP-IDF-5.3.3 / GCC 工具链
+- **开发板**：ESP-WROOM-32
+- **开发工具链**：
+  - CLion 2025.1
+  - ESP-IDF v5.3.3
+  - GCC 工具链
 
-环境配置
 
-1.安装ESP-IDF
 
-​	[ESP-IDF](https://dl.espressif.com/dl/esp-idf/ ) 下载链接 ，安装过程建议科学上网，安装路径不要带有中文
+## ⚙️ 环境配置步骤
 
-注意事项
+### 1️⃣ 安装 ESP-IDF
 
-如果出现 **ERROR: Failed to check the tool while installed**
+访问官方 [ESP-IDF 下载链接](https://dl.espressif.com/dl/esp-idf/)，建议科学上网。安装路径中**不要包含中文**或特殊字符。
 
-一般为用户名存在中文
+#### 常见错误
 
-解决方法如下：
-
-进入设置中的更改时区-> 选择语言和区域 -> 勾选：Beta:使用unicodeUTF-8 -> 重新安装成功
-
-2.配置Clion
-
-修改自动配置文件`idf_cmd_init.bat`
-
-编辑，首行添加，根据本地路径进行修改
+若出现以下错误：
 
 ```
-:: set IDF_PATH
+ERROR: Failed to check the tool while installed
+```
+
+一般是由于**用户名包含中文**所致。解决方法如下：
+
+- 进入设置：**更改时区** → **语言和区域**
+- 勾选：**Beta: 使用 Unicode UTF-8 提供全球语言支持**
+- 重新安装 ESP-IDF 即可
+
+### 2️⃣ 配置 CLion
+
+修改自动生成的配置文件 `idf_cmd_init.bat`，添加以下内容（请根据实际路径修改）：
+
+```
+bat复制编辑:: set IDF_PATH
 set IDF_PATH=E:\Espressif\frameworks\esp-idf-v5.3.3
 ```
 
-工具链配置如下：
+工具链配置示例：
 
-![image-20250511150416622](C:\Users\小新\AppData\Roaming\Typora\typora-user-images\image-20250511150416622.png)
+> ![01](img/01.png)
 
-配置好环境后，选择”flash“，点击锤子🔨进行编译
+配置完成后，点击 CLion 中的 **flash** 配置，再点击锤子图标 🔨 进行编译：
 
-![屏幕截图 2025-05-11 144608](C:\Users\小新\Desktop\屏幕截图 2025-05-11 144608.png)
+> ![02](img/02.png)
 
-这里会出现设置 ESPPORT 和 ESPBAUD的提示，可选设置，不设置也会自行选择 
+编译过程中会提示设置 `ESPPORT` 和 `ESPBAUD`，可以手动设置，也可默认自动选择。
 
-## Clion monitor
+> ![05](img/05.png)
 
-想要选择monitor去监测板子，会出现
+# 📡 使用 CLion Monitor 串口监视器
+
+若直接点击 monitor 出现如下错误：
 
 ```
 Note: python;-m;esp_idf_monitor will search for a serial port. To specify a port, set the ESPPORT environment variable.
@@ -59,21 +74,22 @@ CMake Error at run_serial_tool.cmake:66 (message):
   python;-m;esp_idf_monitor failed.
 ```
 
-替代解决办法如下：
+### ✅ 替代解决方案
 
-方案一：
+#### 方案一：使用 CLion Terminal
 
-![image-20250511161234883](C:\Users\小新\AppData\Roaming\Typora\typora-user-images\image-20250511161234883.png)
+> ![03](img/03.png)
 
-方案二：
 
-1.添加一个Python解释器
 
-​	设置-> 构建、执行、部署 -> Python 解释器
+#### 方案二：添加 Python 解释器并运行脚本
 
-2.添加一个Python脚本，如下：
+1. 设置路径：**设置** → **构建、执行、部署** → **Python 解释器**
+2. 添加一个 Python 脚本，内容如下：
 
-![屏幕截图 2025-05-11 160654](C:\Users\小新\Desktop\屏幕截图 2025-05-11 160654.png)
+> ![04](img/04.png)
 
-注意：需要在修改选项中添加 "在输出控制台中模拟终端"，否则输出为乱码
+⚠️ 注意：在 **“修改选项”** 中勾选 **“在输出控制台中模拟终端”**，否则可能会导致乱码输出。
+
+
 
