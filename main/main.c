@@ -30,7 +30,19 @@
 void app_main(void) {
     // 初始化 WiFi 并连接
     wifi_init();
-    wifi_start();
+
+#ifdef WIFI_APSTA
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_APSTA));
+    wifi_sta_start();
+    wifi_ap_start();
+#elifdef WIFI_STA
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+    wifi_sta_start();
+#elifdef WIFI_AP
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
+    wifi_ap_start();
+#endif
+
     ESP_LOGI("app_main", "WiFi initialized and started");
 
     // 等待 1 秒，确保 WiFi 已连接
@@ -45,7 +57,6 @@ void app_main(void) {
         ESP_LOGI("app_main", "TCP connection initialized successfully");
     } else {
         ESP_LOGE("app_main", "Failed to initialize TCP connection");
-        return; // 如果 TCP 初始化失败，则退出
     }
 
     // 主循环
